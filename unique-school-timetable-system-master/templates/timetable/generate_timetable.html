@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}Generate Timetable{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Generate Timetable</h2>
+
+    <!-- Information about the generation process in a card -->
+    <div class="card p-4 shadow-sm mb-4">
+        <div class="text-center">
+            <p class="lead">Please wait while the timetable is being generated...</p>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form to trigger timetable generation -->
+    <div class="card p-4 shadow-sm">
+        <h4 class="text-center mb-4">Start Timetable Generation</h4>
+        <form method="POST">
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Generate Timetable</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% block title %}Manage Subjects{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="mb-4 text-center">Add New Subject</h3>
+
+    <!-- Add Subject Form -->
+    <form method="POST" action="{{ url_for('management.add_subject') }}" class="card p-4 shadow-sm mb-4">
+        <div class="row g-3">
+            <!-- Subject Name Input -->
+            <div class="col-md-5">
+                <label for="name" class="form-label">Subject Name</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Subject Name" required>
+            </div>
+
+            <!-- Course Dropdown -->
+            <div class="col-md-4">
+                <label for="course_id" class="form-label">Select Course</label>
+                <select name="course_id" class="form-select" id="course_id" required>
+                    <option selected disabled>Select Course</option>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}">{{ course.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Hours Per Week Input -->
+            <div class="col-md-2">
+                <label for="hours" class="form-label">Hours/Week</label>
+                <input type="number" class="form-control" name="hours" id="hours" placeholder="Hours/Week" required>
+            </div>
+
+            <!-- Teacher Dropdown -->
+            <div class="col-md-4">
+                <label for="teacher_id" class="form-label">Select Teacher</label>
+                <select name="teacher_id" class="form-select" id="teacher_id" required>
+                    <option selected disabled>Select Teacher</option>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Type Dropdown -->
+            <div class="col-md-4">
+                <label for="type" class="form-label">Select Type</label>
+                <select name="type" class="form-select" id="type" required>
+                    <option selected disabled>Select Type</option>
+                    <option value="Theory">Theory</option>
+                    <option value="Lab">Lab</option>
+                    <option value="Seminar">Seminar</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary w-100 mt-4">Add Subject</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Displaying the list of subjects -->
+    <h4 class="mt-5">Subjects List</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Course</th>
+                <th>Teacher</th>
+                <th>Hours/Week</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in subjects %}
+            <tr>
+                <td>{{ subject.id }}</td>
+                <td>{{ subject.name }}</td>
+                <td>{{ subject.course.name }}</td>
+                <td>{{ subject.teacher.name }}</td>
+                <td>{{ subject.hours_per_week }}</td>
+                <td>{{ subject.type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

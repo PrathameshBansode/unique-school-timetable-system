@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block title %}Manage Subjects{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Manage Subjects</h3>
+    
+    <!-- Form for adding a new subject -->
+    <form method="POST" action="{{ url_for('management.add_subject') }}" class="card p-4 shadow-sm mb-4">
+        <div class="row g-3">
+            <div class="col-md-5">
+                <input type="text" class="form-control" name="name" placeholder="Subject Name" required>
+            </div>
+            <div class="col-md-4">
+                <select name="course_id" class="form-select" required>
+                    <option selected disabled>Select Course</option>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}">{{ course.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control" name="hours" placeholder="Hours/Week" required>
+            </div>
+            <div class="col-md-4">
+                <select name="teacher_id" class="form-select" required>
+                    <option selected disabled>Select Teacher</option>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Table displaying all subjects -->
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Course</th>
+                <th>Teacher</th>
+                <th>Hours/Week</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in subjects %}
+            <tr>
+                <td>{{ s.id }}</td>
+                <td>{{ s.name }}</td>
+                <td>{{ s.course.name }}</td>
+                <td>{{ s.teacher.name }}</td>
+                <td>{{ s.hours_per_week }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}View Timetable{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Timetable - Unique School</h3>
+        <div class="d-flex flex-wrap gap-2">
+            <!-- Export buttons -->
+            <a href="{{ url_for('management.export_pdf') }}" class="btn btn-outline-danger">🧾 Export PDF</a>
+            <a href="{{ url_for('management.export_excel') }}" class="btn btn-outline-success">📊 Export Excel</a>
+            <a href="{{ url_for('management.generate_timetable') }}" class="btn btn-success">⚙️ Auto-Generate</a>
+            <a href="{{ url_for('management.add_entry') }}" class="btn btn-primary">➕ Add Entry</a>
+            <a href="{{ url_for('teacher_timetable.teacher_timetable') }}" class="btn btn-outline-primary">👨‍🏫 Faculty-wise Timetable</a>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Timetable View -->
+    <div class="table-responsive shadow-sm border rounded">
+        <table class="table table-bordered table-striped align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Time / Day</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for time_slot in time_slots %}
+                <tr>
+                    <td>{{ time_slot }}</td>
+                    {% for day in days %}
+                    <td>
+                        {% set entry = timetable[day][time_slot] %}
+                        {% if entry %}
+                            <strong>{{ entry.subject.name }}</strong><br>
+                            <em>{{ entry.subject.type }}</em><br>
+                            {{ entry.teacher.name }}<br>
+                            {{ entry.room.name }}<br>
+                            <span class="badge bg-info">{{ entry.student_group }}</span>
+                        {% else %}
+                            <em>No class</em>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

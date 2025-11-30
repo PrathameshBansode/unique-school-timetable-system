@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-primary">Welcome, Admin!</h2>
+    <p class="text-center">Manage courses, subjects, rooms, teachers, students, and constraints here.</p>
+
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 text-center">
+        <!-- Manage Courses -->
+        <div class="col">
+            <div class="card shadow-sm border-primary">
+                <div class="card-body">
+                    <i class="bi bi-bookmarks h1 mb-3 text-primary"></i>
+                    <h5 class="card-title text-primary">Manage Courses</h5>
+                    <p class="card-text">Create, update, or delete courses offered by the institution.</p>
+                    <a href="{{ url_for('management.courses') }}" class="btn btn-outline-primary w-100">Manage Courses</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Subjects -->
+        <div class="col">
+            <div class="card shadow-sm border-info">
+                <div class="card-body">
+                    <i class="bi bi-pencil-square h1 mb-3 text-info"></i>
+                    <h5 class="card-title text-info">Manage Subjects</h5>
+                    <p class="card-text">Create, update, or delete subjects for courses.</p>
+                    <a href="{{ url_for('management.add_subject') }}" class="btn btn-outline-info w-100">Manage Subjects</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Teachers -->
+        <div class="col">
+            <div class="card shadow-sm border-success">
+                <div class="card-body">
+                    <i class="bi bi-person-lines-fill h1 mb-3 text-success"></i>
+                    <h5 class="card-title text-success">View Teachers</h5>
+                    <p class="card-text">View and manage the details of all teachers.</p>
+                    <a href="{{ url_for('management.teachers') }}" class="btn btn-outline-success w-100">View Teachers</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Students -->
+        <div class="col">
+            <div class="card shadow-sm border-warning">
+                <div class="card-body">
+                    <i class="bi bi-person-check-fill h1 mb-3 text-warning"></i>
+                    <h5 class="card-title text-warning">View Students</h5>
+                    <p class="card-text">View and manage the details of all students.</p>
+                    <a href="{{ url_for('management.students') }}" class="btn btn-outline-warning w-100">View Students</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Student -->
+        <div class="col">
+            <div class="card shadow-sm border-danger">
+                <div class="card-body">
+                    <i class="bi bi-person-plus-fill h1 mb-3 text-danger"></i>
+                    <h5 class="card-title text-danger">Add Student</h5>
+                    <p class="card-text">Add new students to the system.</p>
+                    <a href="{{ url_for('management.add_student') }}" class="btn btn-outline-danger w-100">Add Student</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Rooms -->
+        <div class="col">
+            <div class="card shadow-sm border-secondary">
+                <div class="card-body">
+                    <i class="bi bi-house-door h1 mb-3 text-secondary"></i>
+                    <h5 class="card-title text-secondary">Manage Rooms</h5>
+                    <p class="card-text">Manage classrooms and their availability.</p>
+                    <a href="{{ url_for('management.rooms') }}" class="btn btn-outline-secondary w-100">Manage Rooms</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Timetable -->
+        <div class="col">
+            <div class="card shadow-sm border-success">
+                <div class="card-body">
+                    <i class="bi bi-calendar-week h1 mb-3 text-success"></i>
+                    <h5 class="card-title text-success">View Timetable</h5>
+                    <p class="card-text">View the existing timetable.</p>
+                    <a href="{{ url_for('management.view_timetable') }}" class="btn btn-outline-success w-100">View Timetable</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Timetable -->
+        <div class="col">
+            <div class="card shadow-sm border-info">
+                <div class="card-body">
+                    <i class="bi bi-calendar-plus h1 mb-3 text-info"></i>
+                    <h5 class="card-title text-info">Generate Timetable</h5>
+                    <p class="card-text">Automatically generate a timetable based on courses and teachers.</p>
+                    <a href="{{ url_for('management.generate_timetable') }}" class="btn btn-outline-info w-100">Generate Timetable</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons for better visual appeal -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Tooltip JavaScript for interactive feedback -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

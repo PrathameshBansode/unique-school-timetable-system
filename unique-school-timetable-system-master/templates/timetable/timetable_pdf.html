@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timetable Report - Unique School</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 12px;
+            margin: 20px;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #005792;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #005792;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f4f8fb;
+        }
+    </style>
+</head>
+<body>
+    <h2>📘 Timetable Report - Unique School</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Course</th>
+                <th>Subject</th>
+                <th>Teacher</th>
+                <th>Room</th>
+                <th>Student Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in timetable %}
+            <tr>
+                <td>{{ entry.day_of_week }}</td>
+                <td>{{ entry.start_time.strftime('%H:%M') }}</td>
+                <td>{{ entry.end_time.strftime('%H:%M') }}</td>
+                <td>{{ entry.course.name }}</td>
+                <td>{{ entry.subject.name }}</td>
+                <td>{{ entry.teacher.name }}</td>
+                <td>{{ entry.room.name }}</td>
+                <td>
+                    {% set group = entry.get_students() %}
+                    {{ group | join(', ') if group else 'N/A' }}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8">No timetable data available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

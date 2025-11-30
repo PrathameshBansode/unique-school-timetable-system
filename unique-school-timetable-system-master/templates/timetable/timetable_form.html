@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+{% block title %}Add Timetable Entry{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">➕ Add Timetable Entry - Unique School</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="course" class="form-label">Course</label>
+                        <select class="form-select" name="course_id" id="course" required>
+                            <option value="" disabled selected>Select Course</option>
+                            {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="subject" class="form-label">Subject</label>
+                        <select class="form-select" name="subject_id" id="subject" required>
+                            <option value="" disabled selected>Select Subject</option>
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="teacher" class="form-label">Teacher</label>
+                        <select class="form-select" name="teacher_id" id="teacher" required>
+                            <option value="" disabled selected>Select Teacher</option>
+                            {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="room" class="form-label">Room</label>
+                        <select class="form-select" name="room_id" id="room" required>
+                            <option value="" disabled selected>Select Room</option>
+                            {% for room in rooms %}
+                            <option value="{{ room.id }}">{{ room.name }} (Cap: {{ room.capacity }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="day" class="form-label">Day</label>
+                        <select class="form-select" name="day" id="day" required>
+                            <option value="" disabled selected>Select Day</option>
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                            <option>Saturday</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="start_time" class="form-label">Start Time</label>
+                        <input type="time" class="form-control" name="start_time" id="start_time" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="end_time" class="form-label">End Time</label>
+                        <input type="time" class="form-control" name="end_time" id="end_time" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="student_group" class="form-label">Student Group (comma separated)</label>
+                    <input type="text" class="form-control" name="student_group" id="student_group" placeholder="e.g., A1, A2, B1">
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">✅ Save Entry</button>
+                    <a href="{{ url_for('timetable.view_timetable') }}" class="btn btn-secondary">🔙 Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

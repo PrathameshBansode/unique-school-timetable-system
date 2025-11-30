@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block title %}Teachers Overview{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Teachers Overview</h3>
+
+    <!-- Add Teacher Button (if applicable) -->
+    <div class="text-end mb-3">
+        <a href="{{ url_for('management.add_teacher') }}" class="btn btn-success">Add Teacher</a>
+    </div>
+
+    <!-- Teachers Table -->
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Max Weekly Hours</th>
+                <th>Availability</th>
+                <th>Vacation Days</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for teacher in teachers %}
+            <tr>
+                <td>{{ teacher.id }}</td>
+                <td>{{ teacher.name }}</td>
+                <td>{{ teacher.max_hours_week }}</td>
+                <td>
+                    {% if teacher.get_availability() %}
+                        {% for day, timeslots in teacher.get_availability().items() %}
+                            <strong>{{ day }}:</strong>
+                            {% for slot in timeslots %}
+                                {{ slot }}<br>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No availability data available</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if teacher.get_vacations() %}
+                        {% for day in teacher.get_vacations() %}
+                            {{ day }}<br>
+                        {% endfor %}
+                    {% else %}
+                        <p>No vacation days available</p>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

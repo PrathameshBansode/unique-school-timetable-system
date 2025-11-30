@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2 class="text-info">Welcome, {{ current_user.name }} (Teacher)</h2>
+    <p>Here is your current teaching timetable:</p>
+
+    <!-- Add link to view timetable -->
+    <a href="{{ url_for('dashboard.teacher_timetable') }}" class="btn btn-outline-primary">View My Timetable</a>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block title %}Teacher Timetable{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-info">Your Personal Timetable, {{ current_user.name }}</h2>  <!-- Ensure current_user.name is correct -->
+
+    <!-- Timetable Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Time / Day</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through time slots and populate for each day -->
+            {% for time_slot, data in timetable.items() %}
+            <tr>
+                <td>{{ time_slot }}</td>
+                
+                <!-- Loop through days and check if the data exists for each day -->
+                {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %}
+                    <td>
+                        {% if day in data %}
+                            {% if data[day] == 'No class' %}
+                                No class
+                            {% else %}
+                                <strong>{{ data[day]['subject'] }}</strong><br>
+                                {{ data[day]['professor'] }}<br>
+                                Room: {{ data[day]['room'] }}
+                            {% endif %}
+                        {% else %}
+                            No class
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Here are your vacation days:</p>
+    <ul>
+        {% for day in vacation_days %}
+        <li>{{ day }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Add vacation day form -->
+    <form method="POST" action="{{ url_for('dashboard.teacher_dashboard') }}">
+        <label for="vacation_day">Add a vacation day:</label>
+        <input type="date" id="vacation_day" name="vacation_day" required>
+        <button type="submit" class="btn btn-primary mt-2">Add Vacation Day</button>
+    </form>
+</div>
+{% endblock %}

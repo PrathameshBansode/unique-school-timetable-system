@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block title %}View Timetable{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">📘 Timetable Overview - Unique School</h3>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('timetable.export_pdf') }}" class="btn btn-outline-danger">
+                🧾 Export PDF
+            </a>
+            <a href="{{ url_for('timetable.export_excel') }}" class="btn btn-outline-success">
+                📊 Export Excel
+            </a>
+
+            <!-- Show only for users who are not students -->
+            {% if current_user.role != 'STUDENT' %}
+                <a href="{{ url_for('timetable.generate_timetable') }}" class="btn btn-success">
+                    ⚙️ Auto-Generate
+                </a>
+                <a href="{{ url_for('timetable.add_entry') }}" class="btn btn-primary">
+                    ➕ Add Entry
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Timetable Grid -->
+    <div class="table-responsive shadow-sm border rounded">
+        <table class="table table-bordered table-striped align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Time / Day</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set time_slots = ['10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM', '12:00 PM - 01:00 PM', '01:00 PM - 02:00 PM', '02:00 PM - 03:00 PM', '03:00 PM - 04:00 PM'] %}
+                {% for time in time_slots %}
+                    <tr>
+                        <td>{{ time }}</td>
+                        {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %}
+                            {% set class_found = false %}
+                            {% for entry in timetable %}
+                                {% if entry.start_time.strftime('%I:%M %p') == time and entry.day_of_week == day %}
+                                    <td>
+                                        <strong>{{ entry.subject.name }}</strong><br>
+                                        {{ entry.teacher.name }}<br>
+                                        {{ entry.room.name }}<br>
+                                    </td>
+                                    {% set class_found = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if not class_found %}
+                                <td>No class</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

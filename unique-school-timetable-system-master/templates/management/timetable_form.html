@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add Timetable Entry{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Add Timetable Entry</h3>
+
+    <form method="POST">
+        <!-- Conflict Checkboxes -->
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="check_teacher_conflict" name="check_teacher_conflict">
+            <label class="form-check-label" for="check_teacher_conflict">Check Teacher Conflicts</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="check_room_conflict" name="check_room_conflict">
+            <label class="form-check-label" for="check_room_conflict">Check Room Conflicts</label>
+        </div>
+
+        <!-- Course Dropdown -->
+        <div class="form-group">
+            <label for="course_id">Course</label>
+            <select name="course_id" id="course_id" class="form-control" required>
+                <option value="">Select Course</option>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- Subject Dropdown -->
+        <div class="form-group">
+            <label for="subject_id">Subject</label>
+            <select name="subject_id" id="subject_id" class="form-control" required>
+                <option value="">Select Subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Teacher Dropdown -->
+        <div class="form-group">
+            <label for="teacher_id">Teacher</label>
+            <select name="teacher_id" id="teacher_id" class="form-control" required>
+                <option value="">Select Teacher</option>
+                {% for teacher in teachers %}
+                    <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Room Dropdown -->
+        <div class="form-group">
+            <label for="room_id">Room</label>
+            <select name="room_id" id="room_id" class="form-control" required>
+                <option value="">Select Room</option>
+                {% for room in rooms %}
+                    <option value="{{ room.id }}">{{ room.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Day of Week Dropdown -->
+        <div class="form-group">
+            <label for="day">Day</label>
+            <select name="day" id="day" class="form-control" required>
+                <option value="">Select Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+            </select>
+        </div>
+
+        <!-- Start Time Input -->
+        <div class="form-group">
+            <label for="start_time">Start Time</label>
+            <input type="time" name="start_time" id="start_time" class="form-control" required>
+        </div>
+
+        <!-- End Time Input -->
+        <div class="form-group">
+            <label for="end_time">End Time</label>
+            <input type="time" name="end_time" id="end_time" class="form-control" required>
+        </div>
+
+        <!-- Student Group Input -->
+        <div class="form-group">
+            <label for="student_group">Student Group</label>
+            <input type="text" name="student_group" id="student_group" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Timetable Entry</button>
+    </form>
+</div>
+{% endblock %}

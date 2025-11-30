@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block title %}Teacher Timetable{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Teacher Timetable View</h3>
+
+    <!-- Teacher Selection -->
+    <form method="POST" class="form-inline justify-content-center mb-4">
+        <label for="teacher_id" class="mr-2 font-weight-bold">Select Teacher:</label>
+        <select name="teacher_id" id="teacher_id" class="form-control mr-2">
+            {% for teacher in teachers %}
+                <option value="{{ teacher.id }}" {% if selected_teacher and teacher.id == selected_teacher.id %}selected{% endif %}>
+                    {{ teacher.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">View</button>
+    </form>
+
+    {% if grid %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Timetable for: {{ selected_teacher.name }}</h5>
+        <a href="{{ url_for('teacher_timetable.export_teacher_timetable', teacher_id=selected_teacher.id) }}"
+           class="btn btn-success">
+            📥 Export to Excel
+        </a>
+    </div>
+
+    <table class="table table-bordered text-center table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Time / Day</th>
+                {% for day in days %}
+                    <th>{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in time_slots %}
+                <tr>
+                    <th>{{ slot[0] }} - {{ slot[1] }}</th>
+                    {% for day in days %}
+                        <td>
+                            {% if grid[slot][day] %}
+                                {{ grid[slot][day]|safe }}
+                            {% else %}
+                                <span class="text-muted">No class</span>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif selected_teacher %}
+        <div class="alert alert-warning text-center">No valid timetable entries for {{ selected_teacher.name }}.</div>
+    {% endif %}
+</div>
+{% endblock %}

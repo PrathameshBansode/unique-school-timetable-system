@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% block title %}Manage Rooms{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Manage Rooms</h3>
+    
+    <form method="POST" action="{{ url_for('management.add_room') }}" class="card p-4 shadow-sm mb-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="name" placeholder="Room Name" required>
+            </div>
+            <div class="col-md-4">
+                <input type="number" class="form-control" name="capacity" placeholder="Capacity" required>
+            </div>
+            <div class="col-md-4">
+                <select name="type" class="form-select" required>
+                    <option selected disabled>Select Type</option>
+                    <option value="Lecture">Lecture</option>
+                    <option value="Lab">Lab</option>
+                    <option value="Seminar">Seminar</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success w-100">Add</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Room Timetable Button -->
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ url_for('room_timetable.room_timetable') }}" class="btn btn-info">
+            View Room Timetable & Export
+        </a>
+    </div>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.id }}</td>
+                <td>{{ room.name }}</td>
+                <td>{{ room.capacity }}</td>
+                <td>{{ room.type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
